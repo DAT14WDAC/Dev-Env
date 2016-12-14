@@ -5,8 +5,8 @@
 }
 
 <h2>Create</h2>
-
-@using (Html.BeginForm())
+@if (Model.SkillList.Count() != 0) {
+using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
@@ -32,8 +32,15 @@
             </div>
         </div>
     </div>
+    }
 }
-
+else if(Model.NumberOfFocus >= 3) {
+    <div>You have reached the maximum number of skillfocuses</div>
+}
+else
+{
+    <div>There are no more skills to focus on at your company</div>
+}
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>

@@ -19,7 +19,10 @@ namespace Eksponent_Fall2016.Controllers
         // GET: EmployeeSkills
         public ActionResult Index()
         {
-            var employeesSkills = db.EmployeesSkills.Include(e => e.Employee).Include(e => e.Skill);
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            var currentUser = userManager.FindById(User.Identity.GetUserId());
+            Employee e = db.Employees.Where(i => i.ApplicationUserId == currentUser.Id).FirstOrDefault();
+            var employeesSkills = db.EmployeesSkills.Where(i => i.EmployeeId == e.EmployeeId).Include(i => i.Skill);
             return View(employeesSkills.ToList());
         }
 
@@ -82,6 +85,7 @@ namespace Eksponent_Fall2016.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EmployeeSkillId,Level,SkillId,EmployeeId")] EmployeeSkillViewModel model)
         {
+            
             if (ModelState.IsValid)
             {
                 var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
@@ -112,8 +116,7 @@ namespace Eksponent_Fall2016.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.EmployeeId = new SelectList(db.Employees, "EmployeeId", "Firstname", employeeSkill.EmployeeId);
-            ViewBag.SkillId = new SelectList(db.Skills, "SkillId", "Skillname", employeeSkill.SkillId);
+          
             return View(employeeSkill);
         }
 
@@ -126,12 +129,13 @@ namespace Eksponent_Fall2016.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(employeeSkill).State = EntityState.Modified;
+                EmployeeSkill e = db.EmployeesSkills.Find(employeeSkill.EmployeeSkillId);
+                e.Level = employeeSkill.Level;
+            
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.EmployeeId = new SelectList(db.Employees, "EmployeeId", "Firstname", employeeSkill.EmployeeId);
-            ViewBag.SkillId = new SelectList(db.Skills, "SkillId", "Skillname", employeeSkill.SkillId);
+           
             return View(employeeSkill);
         }
 

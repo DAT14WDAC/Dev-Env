@@ -19,7 +19,10 @@ namespace Eksponent_Fall2016.Controllers
         // GET: SkillFocus
         public ActionResult Index()
         {
-            var skillFocus = db.SkillFocus.Include(s => s.Employee).Include(s => s.Skill);
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            var currentUser = userManager.FindById(User.Identity.GetUserId());
+            Employee e = db.Employees.Where(i => i.ApplicationUserId == currentUser.Id).FirstOrDefault();
+            var skillFocus = db.SkillFocus.Where(i => i.EmployeeId == e.EmployeeId).Include(s => s.Skill);
             return View(skillFocus.ToList());
         }
 
@@ -61,13 +64,15 @@ namespace Eksponent_Fall2016.Controllers
                     }
                 }
             }
+
             var model = new SkillFocusViewModel
             {
                 SkillList = list.Select(a => new SelectListItem
                 {
                     Text = a.Skillname,
                     Value = a.SkillId.ToString()
-                })
+                }),
+                NumberOfFocus = list.Count()  
 
             };
             return View(model);

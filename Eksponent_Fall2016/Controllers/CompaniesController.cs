@@ -174,10 +174,11 @@ namespace Eksponent_Fall2016.Controllers
             {
                 foreach (var skill in skillIds)
                 {
-                    var result = db.EmployeesSkills.Include(e => e.Employee).Include(e => e.Skill)
+                    model.eSkillList = db.EmployeesSkills.Include(e => e.Employee).Include(e => e.Skill)
                    .Where(x => x.SkillId == skill).ToList();
-
-                    model.eSkillList.Concat(result);
+                    //var result = db.EmployeesSkills.Include(e => e.Employee).Include(e => e.Skill)
+                   //.Where(x => x.SkillId == skill).ToList();
+                    //model.eSkillList.Concat(result);
                 }
             }
             return View(model.eSkillList);

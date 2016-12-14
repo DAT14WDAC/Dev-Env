@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Eksponent_Fall2016.Models;
 using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Eksponent_Fall2016.Controllers
 {
@@ -159,6 +160,17 @@ namespace Eksponent_Fall2016.Controllers
 
                 if (result.Succeeded)
                 {
+
+                    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+
+
+                    if (!roleManager.RoleExists("Admin"))
+                    {
+                        var role = new IdentityRole();
+                        role.Name = "Admin";
+                        roleManager.Create(role);
+
+                    }
                     var roleresult = UserManager.AddToRole(user.Id, "Admin");
 
                     ApplicationDbContext db = new ApplicationDbContext();
@@ -217,14 +229,30 @@ namespace Eksponent_Fall2016.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterEmployee(RegisterViewModelEmployee model, HttpPostedFileBase image)
         {
-         
+            var list = new List<Company>();
+            list = db.Companies.ToList();
+            model.CompanyList = list.Select(a => new SelectListItem
+            {
+                Text = a.CompanyName,
+                Value = a.CompanyId.ToString()
+            });
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var roleresult = UserManager.AddToRole(user.Id, "Employee");
+                    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+
+
+                    if (!roleManager.RoleExists("Employee"))
+                    {
+                        var role = new IdentityRole();
+                        role.Name = "Employee";
+                        roleManager.Create(role);
+
+                    }
+                     var roleresult = UserManager.AddToRole(user.Id, "Employee");
 
                     ApplicationDbContext db = new ApplicationDbContext();
                     Employee e = new Employee();
