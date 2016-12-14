@@ -1,0 +1,112 @@
+﻿@model Eksponent_Fall2016.Models.Company
+@{
+    ViewBag.Title = "Index";
+}
+<h2>YOUR PROFILE</h2>
+<link href="~/Content/Custom.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+<div class="container-fluid">
+    <p>
+        @Html.ActionLink("Create Set of Skills", "Create")|
+        @Html.ActionLink("Roles Within the Company", "GetSkills")     
+    </p>
+
+    <div id="hello"></div>
+    <div><a id="joinGroup" myAttrJoin="0">Press here to create your work group!</a></div>
+    <div><button id="leaveGroup">Leave group</button></div>
+
+    <div class="row">
+        <div class="col-md-3">
+
+            <div>
+                <a href="@Url.Action("Edit", "Companies", new {id = Model.CompanyId})">
+                    <img style="margin-top: 10px;" src="../../@Model.CompanyLogo" class="CompanyLogo thumbnail img-responsive">
+                   @*<img src="@Model.CompanyLogo" alt="Profile image" class="profileImage thumbnail img-responsive">*@
+                     <br />
+                </a>
+                @*@Html.Label(company.CompanyName, new { @class = "LabelStyle" })*@
+            </div>
+
+        </div>
+        <div class="col-md-9" style="margin-top:50px;">
+            <dl class="dl-horizontal">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CompanyName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.CompanyName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CompanyDescription)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.CompanyDescription)
+                </dd>
+                <dt>
+                    Skills
+                </dt>
+                <dd>
+                    <table class="table">
+                        @foreach (var item in Model.ISkill)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Skillname)
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+
+        var myHub = $.connection.myHub;
+
+        myHub.client.hello = function (data) {
+            $("#hello").append("<div>Hello <strong>"+data.Name+" </strong> here are all your group connections -- With id:" + data.CId+"</div>");
+        }
+
+        myHub.client.message = function (message) {
+            alert(message);
+        }
+
+        $.connection.hub.start().done(function () {
+            myHub.server.hello();
+            });
+
+        $("#joinGroup").click(function () {
+            var pressed = $(this).attr("myAttrJoin");
+
+            if (pressed == 0) {
+                myHub.server.joinGroup("@Model.CompanyName");
+                console.log("join");
+                $(this).hide();
+                $(this).attr("myAttrJoin",1);
+            }
+
+        });
+
+        $("#leaveGroup").click(function () {
+            var pressed = $("#joinGroup").attr("myAttrJoin");
+
+            if (pressed == 1) {
+                $("#joinGroup").show();
+                $("#joinGroup").attr("myAttrJoin",0);
+            }
+            myHub.server.leaveGroup("@Model.CompanyName");
+            console.log("join");
+
+        });
+
+    </script>
+}
+

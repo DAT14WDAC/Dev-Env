@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Eksponent_Fall2016.Models.Skill>
+@{
+    ViewBag.Title = "EmployeeSkills";
+}
+<link href="~/Content/Site.css" rel="stylesheet" />
+<h3>Skills at @ViewBag.Company </h3>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-4 col-md-4">
+            <table class="table" id="t01">
+                <tr>
+                    <th>
+                        Skill Name
+                    </th>
+                    <th>
+                        Skill Description
+                    </th>
+                </tr>
+                @foreach (var skill in Model)
+                {
+                    <tr>
+                        <td>
+                           @Html.DisplayFor(model => skill.Skillname)
+                        </td>
+                        <td>
+                           @Html.DisplayFor(model => skill.Skilldescription)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+        </div>
+    </div>
+</div>
+<div style="margin-left:10px;">
+    <div>@Html.ActionLink("Add a skill i already know", "AddSkill")</div>
+    <div>@Html.ActionLink("Add a skill i want to focus on", "FocusSkill")</div>
+</div>

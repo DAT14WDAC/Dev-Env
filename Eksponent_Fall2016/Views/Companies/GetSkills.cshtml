@@ -1,0 +1,40 @@
+﻿@model Eksponent_Fall2016.Models.EmployeeSkillViewModel
+
+@{
+    ViewBag.Title = "GetSkills";
+}
+
+<h2>Get the Employees with the following skills...</h2>
+@using (Html.BeginForm("GetEmployeeSkills", "Companies"))
+{
+    <div>
+        <hr />
+
+        @Html.LabelFor(model => model.SkillList, "Skills:", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @foreach (var skill in Model.SkillList)
+            {
+                <label>
+                    <input id="skillIds" type="checkbox" value="@skill.Value" name="skillIds" />
+                    @skill.Text
+                    &nbsp;
+                </label>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    </div>
+}
+@section Scripts{
+
+    <script>
+        $(".btn").click(function (){
+        console.log("search preseed");
+    });
+    </script>
+
+
+}

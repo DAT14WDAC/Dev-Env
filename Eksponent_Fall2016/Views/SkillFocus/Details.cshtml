@@ -1,0 +1,42 @@
+﻿@model Eksponent_Fall2016.Models.SkillFocus
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SkillFocus</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.Firstname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee.Firstname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Skill.Skillname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Skill.Skillname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Startdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Startdate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SkillFocusId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
