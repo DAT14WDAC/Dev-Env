@@ -1,0 +1,17 @@
+﻿
+@model Eksponent_Fall2016.Models.EmployeeSkillViewModel
+
+<div>
+    <h4>Results for the selected level</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.Label("Ratio")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Level) % out of total number of employees have experience at this Level
+        </dd>
+    </dl>
+</div>

@@ -5,8 +5,10 @@
 }
 
 <h2>Experience Overview Within Your Company</h2>
-@using (Html.BeginForm())
-{
+
+
+@*@using (Html.BeginForm())
+{*@
     <div class="container">
         <div class="form-group">
             <div style="margin-top: 20px;">
@@ -14,7 +16,7 @@
                 @foreach (var item in Model.LevelList)
                 {
                     <label>
-                        <input id="radioIds" type="radio" value="@item.Value" name="radioIds" />
+                        <input id="radioIds" type="radio" value="@item.Value" name="radioIds" data-typeAttr="@item.Value"/>
                         @item.Text
                         &nbsp;
                     </label>
@@ -23,8 +25,35 @@
         </div>
         <div class="form-group">
             <div>
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input id="submit" type="submit" value="See Results" class="btn btn-default" />
             </div>
         </div>
     </div>
+@*}*@ 
+
+<div id="levelExperience">
+    @* partial view in here *@
+</div>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function() {
+            $("#submit").on("click", function () {
+                var val = $("#radioIds").attr("data-typeAttr");
+                console.log(val+ " "+ "has been selected");
+                $.ajax({
+                    url: "/Companies/Overview",
+                    type: "POST",
+                    data: { radioIds : val }
+                })
+                .done(function(partialViewResult) {
+                    $("#levelExperience").html(partialViewResult);
+                }).fail(function () {
+
+                });
+            });
+        });
+    </script>
+
 }
