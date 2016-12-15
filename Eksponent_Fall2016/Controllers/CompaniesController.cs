@@ -250,7 +250,7 @@ namespace Eksponent_Fall2016.Controllers
             //get the total employee nr for company
             var totalEmployees = db.Employees.Where(e => e.CompanyId == company.CompanyId).Count();
             // get the employees nr with level and count
-            var countEmployee = db.EmployeesSkills.Include(e => e.Employee).Where(l => l.Level == radioIds).Count();
+            var countEmployee = db.EmployeesSkills.Include(e => e.Employee).Where(l => l.Level == radioIds && l.Employee.CompanyId == company.CompanyId).Count();
             // calculate the percentage represented by countEmployee ratio
             int percentComplete = (int)Math.Round((double)(100 * countEmployee) / totalEmployees);
 

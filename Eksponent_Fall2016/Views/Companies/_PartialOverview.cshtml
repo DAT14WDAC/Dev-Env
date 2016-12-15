@@ -1,6 +1,10 @@
 ﻿
 @model Eksponent_Fall2016.Models.EmployeeSkillViewModel
 
+@{ 
+    var level = Model.Level;
+}
+
 <div>
     <h4>Results for the selected level</h4>
     <hr />
@@ -11,7 +15,16 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Level) % out of total number of employees have experience at this Level
+            @if (level != 0)
+            {
+                <span> @level % out of total number of employees have experience at this Level </span>
+
+            }
+            else
+            {
+                <span> No employee has experience at this Level</span>
+
+            }
         </dd>
     </dl>
 </div>

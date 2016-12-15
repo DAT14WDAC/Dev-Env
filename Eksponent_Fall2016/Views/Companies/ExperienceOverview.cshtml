@@ -38,17 +38,25 @@
 @section Scripts{
 
     <script>
-        $(document).ready(function() {
-            $("#submit").on("click", function () {
-                var val = $("#radioIds").attr("data-typeAttr");
+        //$(document).on("click", "#radioIds", function () {
+        //    var val = $(this).attr("data-typeAttr");
+        //    console.log(val + " " + "has been selected");
+
+        //});
+        $(document).on("click", "#radioIds", function () {
+            var val = $(this).attr("data-typeAttr");
+
+            $("#submit").on("click",  function () {
                 console.log(val+ " "+ "has been selected");
                 $.ajax({
                     url: "/Companies/Overview",
                     type: "POST",
                     data: { radioIds : val }
                 })
-                .done(function(partialViewResult) {
+                .done(function (partialViewResult) {
+                    console.log(partialViewResult);
                     $("#levelExperience").html(partialViewResult);
+                    val = "";
                 }).fail(function () {
 
                 });
