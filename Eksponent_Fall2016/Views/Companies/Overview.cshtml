@@ -1,0 +1,25 @@
+﻿@model Eksponent_Fall2016.Models.EmployeeSkillViewModel
+
+@{
+    ViewBag.Title = "Overview";
+}
+
+<h2>Overview</h2>
+
+<div>
+    <h4>EmployeeSkillViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Level)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Level)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "ExperienceOverview")
+</p>

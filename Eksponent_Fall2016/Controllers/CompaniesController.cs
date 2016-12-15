@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using Eksponent_Fall2016.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Security;
+using System.Web.Configuration;
 
 namespace Eksponent_Fall2016.Controllers
 {
@@ -124,10 +126,17 @@ namespace Eksponent_Fall2016.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
+            //Fetching UserManager
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            //Get User from Database based on userId 
+            var currentUser = userManager.FindById(User.Identity.GetUserId());
+
             Company company = db.Companies.Find(id);
             db.Companies.Remove(company);
+            db.Users.Remove(currentUser);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Companies/get sills list
@@ -167,21 +176,54 @@ namespace Eksponent_Fall2016.Controllers
             //get the current company from db
             Company company = db.Companies.Where(x => x.ApplicationUserId == currentUser.Id).Single();
 
-            var model = new EmployeeSkillViewModel();
-            model.eSList = new List<EmployeeSkill>();
+            var eSList = new List<EmployeeSkill>();
 
             if (ModelState.IsValid)
             {
                 foreach (var skill in skillIds)
                 {
-                    model.eSkillList = db.EmployeesSkills.Include(e => e.Employee).Include(e => e.Skill)
+                    var result = db.EmployeesSkills.Include(e => e.Employee).Include(e => e.Skill)
                    .Where(x => x.SkillId == skill).ToList();
-                    //var result = db.EmployeesSkills.Include(e => e.Employee).Include(e => e.Skill)
-                   //.Where(x => x.SkillId == skill).ToList();
-                    //model.eSkillList.Concat(result);
+                    eSList.AddRange(result);
                 }
             }
-            return View(model.eSkillList);
+            return View(eSList);
+        }
+
+        // GET: Companies/Experience Overview
+        [HttpGet]
+        public ActionResult ExperienceOverview()
+        {
+            var model = new EmployeeSkillViewModel
+            {
+                LevelList = new List<SelectListItem>()
+                {
+                        new SelectListItem{ Text="1", Value="1"},
+                        new SelectListItem{ Text="2", Value="2"},
+                        new SelectListItem{ Text="3", Value="3"},
+                        new SelectListItem{ Text="4", Value="4"},
+                        new SelectListItem{ Text="5", Value="5"}
+                }
+            };
+            return View(model);
+        }
+
+        // Post: Companies/Experience Overview 
+        [HttpPost, ActionName("ExperienceOverview")]
+        public ActionResult ExperienceOverview(int radioIds)
+        {
+            // get the employees with level and count
+            var employee = db.EmployeesSkills.Include(e => e.Employee).Where(l => l.Level == radioIds).Count();
+
+            if (ModelState.IsValid && employee != 0)
+            {
+                var model = new EmployeeSkillViewModel
+                {
+                    Level = employee
+                };
+                return View(model);
+            }
+            return View(ViewBag.Message = "No level experience found within your company.");
         }
 
         protected override void Dispose(bool disposing)
@@ -192,6 +234,7 @@ namespace Eksponent_Fall2016.Controllers
             }
             base.Dispose(disposing);
         }
-
     }
+   
+
 }

@@ -175,8 +175,8 @@ namespace Eksponent_Fall2016.Controllers
 
                     ApplicationDbContext db = new ApplicationDbContext();
                     Company c = new Company();
-                    c.CompanyName = model.CompanyName;
-                    c.CompanyDescription = model.CompanyDescription;
+                    c.CompanyName = model.CompanyName.ToUpper();
+                    c.CompanyDescription = model.CompanyDescription.ToUpper();
                     // c.CompanyLogo = model.CompanyLogo;
                     var path = Server != null ? Server.MapPath("~") : "";
                     c.SaveLogo(image, path, "/ProfileImages/");

@@ -2,9 +2,6 @@
 @{
     ViewBag.Title = "GetEmployees";
 }
-<p>
-    @*@Html.ActionLink("Create New", "Create")*@
-</p>
 
 <link href="~/Content/Site.css" rel="stylesheet" />
 <div class="container" id="GetEmployee">
@@ -32,7 +29,7 @@
         <div class="col-md-9">
             @foreach (var item in Model)
             {
-                <div class="col-lg-2 col-sm-3 col-xs-4"
+                <div class="col-lg-3 col-sm-3 col-xs-4"
                      style="padding-left: 2px !important;padding-right:2px !important; ">
                     <a href="@Url.Action("Details", "Employees", new {id = @item.EmployeeId})">
                         <img src="../../@item.Profileimage" class="profileImage thumbnail img-responsive">

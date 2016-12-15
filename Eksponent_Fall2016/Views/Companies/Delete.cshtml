@@ -12,7 +12,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyName)
+            @Html.LabelFor(model => model.CompanyName,"Company Name")
         </dt>
 
         <dd>
@@ -20,19 +20,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyDescription)
+            @Html.LabelFor(model => model.CompanyDescription, "Company Description")
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.CompanyDescription)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyLogo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyLogo)
         </dd>
     </dl>
 

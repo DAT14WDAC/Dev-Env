@@ -5,36 +5,34 @@
 <h2>YOUR PROFILE</h2>
 <link href="~/Content/Custom.css" rel="stylesheet" />
 <link href="~/Content/Site.css" rel="stylesheet" />
-<div class="container-fluid">
+
     <p>
 
-        @Html.ActionLink("Create Set of Skills", "Create")|
-        @Html.ActionLink("Roles Within the Company", "GetSkills")
-       
+        @Html.ActionLink("Create Set of Skills", "Create") |
+        @Html.ActionLink("Roles Within the Company", "GetSkills") |
+        @Html.ActionLink("Experience Overview", "ExperienceOverview")
     </p>
 
     <div id="hello"></div>
-    <div><a id="joinGroup" myAttrJoin="0">Press here to create your work group!</a></div>
-    <div><button id="leaveGroup">Leave group</button></div>
+    <div><a id="joinGroup" myAttrJoin="0">Press here to CREATE your work group!</a></div>
+    <div><a id="leaveGroup">Press here to LEAVE your work group!</a></div>
 
+<div class="container" id="companyContainer">
     <div class="row">
         <div class="col-md-3">
-
             <div>
                 <a href="@Url.Action("Edit", "Companies", new {id = Model.CompanyId})">
-                    <img style="margin-top: 10px;" src="../../@Model.CompanyLogo" class="CompanyLogo thumbnail img-responsive">
-                   @*<img src="@Model.CompanyLogo" alt="Profile image" class="profileImage thumbnail img-responsive">*@
-                     <br />
+                    <img style="margin-top: 20px;" src="../../@Model.CompanyLogo" class="CompanyLogo thumbnail img-responsive">
+                    <br />
                 </a>
-                @*@Html.Label(company.CompanyName, new { @class = "LabelStyle" })*@
             </div>
 
         </div>
-        <div class="col-md-9" style="margin-top:50px;">
+        <div class="col-md-6 col-md-3" style="margin-top:50px;">
             <dl class="dl-horizontal">
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.CompanyName)
+                    @Html.LabelFor(model => model.CompanyName, "Company Name")
                 </dt>
                 <dd>
                     @Html.DisplayFor(model => model.CompanyName)
@@ -54,13 +52,12 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Skillname)
+                                    <strong>@Html.DisplayFor(modelItem => item.Skillname)</strong>
                                 </td>
                             </tr>
                         }
                     </table>
                 </dd>
-
             </dl>
         </div>
     </div>
@@ -92,7 +89,8 @@
                 myHub.server.joinGroup("@Model.CompanyName");
                 console.log("join");
                 $(this).hide();
-                $(this).attr("myAttrJoin",1);
+                $(this).attr("myAttrJoin", 1);
+                $("#leaveGroup").show();
             }
 
         });
@@ -102,12 +100,15 @@
 
             if (pressed == 1) {
                 $("#joinGroup").show();
-                $("#joinGroup").attr("myAttrJoin",0);
+                $("#joinGroup").attr("myAttrJoin", 0);
+                $("#leaveGroup").hide();
             }
             myHub.server.leaveGroup("@Model.CompanyName");
             console.log("join");
 
         });
+
+        $("#leaveGroup").hide();
 
     </script>
 }

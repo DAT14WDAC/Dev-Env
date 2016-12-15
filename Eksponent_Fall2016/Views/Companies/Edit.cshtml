@@ -21,7 +21,6 @@
                     @Html.HiddenFor(model => model.CompanyId)
                     @Html.HiddenFor(model => model.ApplicationUserId)
                     @Html.HiddenFor(model => model.CompanyLogo)
-                    @Html.HiddenFor(model => model.ApplicationUserId)
                     <div class="form-group">
                         @Html.LabelFor(model => model.CompanyName, "Company Name", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
@@ -39,8 +38,10 @@
                     
                     <div class="form-group">
                         @Html.LabelFor(model => model.CompanyLogo, "Company logo", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <input name="image" type="file" />
-                        @Html.ValidationMessageFor(model => model.CompanyLogo)
+                        <div class="col-md-10">
+                            <input name="image" type="file" />
+                            @Html.ValidationMessageFor(model => model.CompanyLogo)
+                        </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
@@ -60,5 +61,5 @@
     <div>
         @Html.ActionLink("Back to Company Profile", "Index")
     </div>
-    <div>@Html.ActionLink("Delete Company", "Delete")</div>
+    <div>@Html.ActionLink("Delete Company", "Delete", new { id = Model.CompanyId})</div>
 </div>

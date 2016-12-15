@@ -1,0 +1,30 @@
+﻿@model Eksponent_Fall2016.Models.EmployeeSkillViewModel
+
+@{
+    ViewBag.Title = "ExperienceOverview";
+}
+
+<h2>Experience Overview Within Your Company</h2>
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="form-group">
+            <div style="margin-top: 20px;">
+                @Html.Label("Choose a Level:")  &nbsp; &nbsp;
+                @foreach (var item in Model.LevelList)
+                {
+                    <label>
+                        <input id="radioIds" type="radio" value="@item.Value" name="radioIds" />
+                        @item.Text
+                        &nbsp;
+                    </label>
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

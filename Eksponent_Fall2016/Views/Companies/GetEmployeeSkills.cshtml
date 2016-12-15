@@ -4,7 +4,7 @@
     ViewBag.Title = "GetEmployeeSkills";
 }
 
-<h2>GetEmployeeSkills</h2>
+<h2>Employees Skill</h2>
 
 <p>
     @Html.ActionLink("Go back", "GetSkills")
@@ -12,13 +12,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Employee.Firstname)
+            @Html.Label("First Name")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Skill.Skillname)
+            @Html.Label("Skill Name")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Level)
+            @Html.Label("Level (Years Experience)")
         </th>
         <th></th>
     </tr>
@@ -27,18 +27,13 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Employee.Firstname)
+                @Html.DisplayFor(modelItem => item.Employee.Firstname , new { htmlAttributes = new { @style = "text-transform:uppercase" } })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Skill.Skillname)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Level)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeSkillId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.EmployeeSkillId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeSkillId })
             </td>
         </tr>
     }

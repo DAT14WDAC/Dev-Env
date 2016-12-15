@@ -1,5 +1,9 @@
-﻿
-#joinGroup{
+﻿#joinGroup{
     cursor: pointer;
     color:coral;
 }
+#leaveGroup{
+    cursor: pointer;
+    color:coral;
+}
+ 

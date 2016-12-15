@@ -11,8 +11,9 @@
     <h4>Employee</h4>
     <hr />
     <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.ApplicationUserId)
         <dt>
-            @Html.DisplayNameFor(model => model.Company.CompanyName)
+            @Html.LabelFor(model => model.Company.CompanyName, "Company Name")
         </dt>
 
         <dd>
@@ -20,7 +21,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Firstname)
+            @Html.LabelFor(model => model.Firstname, "First Name")
         </dt>
 
         <dd>
@@ -28,29 +29,20 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Lastname)
+            @Html.LabelFor(model => model.Lastname, "Last Name")
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Lastname)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Profileimage)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Profileimage)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ApplicationUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ApplicationUserId)
-        </dd>
-
+        </dd>*@
     </dl>
 
     @using (Html.BeginForm()) {
@@ -58,7 +50,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to List", "GetEmployees")
         </div>
     }
 </div>

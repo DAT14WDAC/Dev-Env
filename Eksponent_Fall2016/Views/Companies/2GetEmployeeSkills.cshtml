@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Eksponent_Fall2016.Models.EmployeeSkill>
+
+@{
+    ViewBag.Title = "GetEmployeeSkills";
+}
+
+<h2>GetEmployeeSkills</h2>
+
+<div class="col-md-9" style="margin-top:50px;">
+    <dl class="dl-horizontal">
+        <dt>
+            Skills
+        </dt>
+        <dd>
+           
+            @foreach (var item in Model)
+            {
+                    
+                        
+            <strong>@Html.DisplayFor(modelItem => item.Skill.Skillname)</strong>
+            <table>
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Employee.Firstname, new { htmlAttributes = new { @style = "text-transform:uppercase" } })</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Level)</td>
+                </tr>
+            </table>
+                       
+
+            }
+        </dd>
+
+    </dl>
+</div>
