@@ -212,14 +212,25 @@ namespace Eksponent_Fall2016.Controllers
         [HttpPost, ActionName("ExperienceOverview")]
         public ActionResult ExperienceOverview(int radioIds)
         {
-            // get the employees with level and count
-            var employee = db.EmployeesSkills.Include(e => e.Employee).Where(l => l.Level == radioIds).Count();
+            
+            //Fetching UserManager
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            //Get User from Database based on userId 
+            var currentUser = userManager.FindById(User.Identity.GetUserId());
+            //get the current company from db
+            Company company = db.Companies.Where(x => x.ApplicationUserId == currentUser.Id).Single();
+            //get the total employee nr for company
+            var totalEmployees = db.Employees.Where(e => e.CompanyId == company.CompanyId).Count();
+            // get the employees nr with level and count
+            var countEmployee = db.EmployeesSkills.Include(e => e.Employee).Where(l => l.Level == radioIds).Count();
+            // calculate the percentage represented by countEmployee ratio
+            int percentComplete = (int)Math.Round((double)(100 * countEmployee) / totalEmployees);
 
-            if (ModelState.IsValid && employee != 0)
+            if (ModelState.IsValid && countEmployee != 0)
             {
                 var model = new EmployeeSkillViewModel
                 {
-                    Level = employee
+                    Level = percentComplete
                 };
                 return View(model);
             }
